@@ -21,8 +21,7 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry("localhost");
             Auction server = (Auction) registry.lookup(name);
 
-            SealedObject sealedObject = server.getSpec(n);
-            AuctionItem auctionItem = (AuctionItem) decrypt(sealedObject);
+            AuctionItem auctionItem = server.getSpec(n);
 
             if (auctionItem != null) {
                 System.out.println("\nAuction item ID is: " + auctionItem.itemID);
@@ -36,23 +35,5 @@ public class Client {
             System.err.println("Exception:");
             e.printStackTrace();
         }
-    }
-
-    private static AuctionItem decrypt(SealedObject sealedObject) throws Exception {
-        // Decrypts a SealedObject and returns it as an AuctionItem
-
-        SecretKey secretKey = loadKey();
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        return (AuctionItem) sealedObject.getObject(cipher);
-    }
-
-    private static SecretKey loadKey() throws Exception {
-        // Returns the key in its original format
-        byte[] key;
-        try (FileInputStream fis = new FileInputStream(KEY_FILE)) {
-            key = fis.readAllBytes();
-        }
-        return new SecretKeySpec(key, "AES");
     }
 }

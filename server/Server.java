@@ -10,29 +10,14 @@ public class Server implements Auction {
     private int numberOfUsers = 0;
     private int totalItems = 0;
     Map<Integer, String> id_to_email = new HashMap<Integer, String>();
-    Map<Integer, ArrayList> userIdToUserAuctionsMap = new HashMap<Integer, ArrayList>();
-    Map<Integer, ArrayList> userIdToAllAuctionsMap = new HashMap<Integer, ArrayList>();
+    Map<Integer, ArrayList<AuctionItem>> userIdToUserAuctionsMap = new HashMap<Integer, ArrayList<AuctionItem>>();
+    Map<Integer, ArrayList<AuctionItem>> userIdToAllAuctionsMap = new HashMap<Integer, ArrayList<AuctionItem>>();
     AuctionItem aItem = new AuctionItem();
     ArrayList<AuctionItem> userAuctions = new ArrayList<AuctionItem>();
     ArrayList<AuctionItem> allAuctions = new ArrayList<AuctionItem>();
-    
-    private static final String KEY_FILE = "../keys/testKey.aes";
-    
-    public Server() {
-        super();
         
-        // Initializes AuctionItems
-        aItem.itemID = 1;
-        aItem.name = "Car";
-        aItem.description = "Vehicle";
-        aItem.highestBid = 2000;
-        userAuctions.add(aItem);
-
-        aItem.itemID = 2;
-        aItem.name = "Phone";
-        aItem.description = "Electronics";
-        aItem.highestBid = 300;
-        userAuctions.add(aItem);        
+    public Server() {
+        super();  
     }
 
     
@@ -78,9 +63,7 @@ public class Server implements Auction {
 
     @Override
     public AuctionItem getSpec(int itemID) throws RemoteException {
-
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSpec'");
+        return allAuctions.get(itemID);
     }
 
     
